@@ -51,6 +51,7 @@ public class ServerConnection {
             @Override
             public void run() {
                 try {
+                    if (socket == null) return;
                     OutputStream outputStream = new DataOutputStream(socket.getOutputStream());
                     String stringBuilder = request.toString();
                     outputStream.write(stringBuilder.getBytes());
