@@ -45,13 +45,13 @@ public class MainActivity extends LocationTrackerActivity
                 {
                     Utils.displayNotification("ALERT",
                             "A Possible Fire alert, proceed with caution",
-                            R.drawable.ic_launcher_background, MainActivity.this);
+                            R.drawable.danger, MainActivity.this);
                 }
                 else if (request.getKeyword().equals(Consts.UPLOAD_DATA))
                 {
                     Utils.displayNotification("Warning",
                             "Ideal circumstances for Fire, be extra cautious",
-                            R.drawable.ic_launcher_background, MainActivity.this);
+                            R.drawable.warning, MainActivity.this);
                 }
 
             }
