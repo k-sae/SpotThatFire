@@ -26,6 +26,8 @@ import java.util.Map;
 public class HomeFragment extends Fragment implements LocationTrackerFragment {
 
     private TextView tempTextView;
+    private TextView locationTextView;
+    private TextView cloudTextView;
     private TextView windTextView;
     private TextView humidityTextView;
     private TextView rainTextView;
@@ -51,6 +53,8 @@ public class HomeFragment extends Fragment implements LocationTrackerFragment {
     private void setUi(View view)
     {
          tempTextView = view.findViewById(R.id.temp_textView);
+         locationTextView = view.findViewById(R.id.location_textView);
+         cloudTextView = view.findViewById(R.id.cloud_textView);
          windTextView = view.findViewById(R.id.wind_speed_textView);
          humidityTextView = view.findViewById(R.id.humidity_textView);
          rainTextView = view.findViewById(R.id.rain_textView);
@@ -83,10 +87,12 @@ public class HomeFragment extends Fragment implements LocationTrackerFragment {
             public void onResponse(String response) {
                 Log.e("HomeFragment", "onResponse: " + response );
                 WeatherData weatherData = new Gson().fromJson(response, WeatherData.class);
-                tempTextView.setText(String.valueOf(weatherData.getMain().getTemp()));
-                windTextView.setText(String.valueOf(weatherData.getWind().getSpeed()));
-                humidityTextView.setText(String.valueOf(weatherData.getMain().getHumidity()));
-                rainTextView.setText(String.valueOf(weatherData.getRain().get3h()));
+                tempTextView.setText(String.valueOf(weatherData.getMain().getTemp() - 273.15 + " \u2103"));
+                locationTextView.setText(String.valueOf(weatherData.getName()));
+                cloudTextView.setText(String.valueOf(weatherData.getWeather().get(0).getDescription()));
+                windTextView.setText(String.valueOf(weatherData.getWind().getSpeed() + " m/s"));
+                humidityTextView.setText(String.valueOf(weatherData.getMain().getHumidity() + "%"));
+                rainTextView.setText(String.valueOf(weatherData.getRain().get3h() + " m\u2073"));
             }
         };
         volleyRequest.start();

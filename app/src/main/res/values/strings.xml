@@ -16,5 +16,11 @@
     <string name="cancel">Cancel</string>
     <string name="location_title_prompt">Location is not enabled</string>
     <string name="tracking">Tracking</string>
+    <string name="wind">WIND</string>
+    <string name="humidity">HUMIDITY</string>
+    <string name="rain">RAIN</string>
+    <string name="zero">0</string>
+    <string name="clear">CLEAR</string>
+    <string name="unset">-</string>
 
 </resources>
