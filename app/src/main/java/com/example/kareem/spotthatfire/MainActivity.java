@@ -16,9 +16,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.kareem.spotthatfire.Connection.Request;
+import com.example.kareem.spotthatfire.Connection.ServerConnection;
+import com.example.kareem.spotthatfire.Connection.ServerNotificationListener;
+
 public class MainActivity extends LocationTrackerActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,19 @@ public class MainActivity extends LocationTrackerActivity
 //                        .setAction("Action", null).show();
 //            }
 //        });
+        ServerConnection.getInstance().startConnection();
+        ServerConnection.getInstance().setOnNotificationReceivedListener(new ServerNotificationListener() {
+            @Override
+            public void uponServerNotification(Request request) {
+                if (request.getKeyword().equals(Consts.REPORT_FIRE))
+                {
+                    Utils.displayNotification("ALERT",
+                            "A Possible Fire alert, proceed with caution",
+                            R.drawable.ic_launcher_background, MainActivity.this);
+                }
+
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

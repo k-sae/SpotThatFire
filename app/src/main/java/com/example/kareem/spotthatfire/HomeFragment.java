@@ -8,10 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.example.kareem.spotthatfire.Connection.Request;
+import com.example.kareem.spotthatfire.Connection.ServerConnection;
 import com.example.kareem.spotthatfire.Connection.VolleyRequest;
 import com.example.kareem.spotthatfire.Model.WeatherData;
 import com.google.gson.Gson;
@@ -31,6 +34,7 @@ public class HomeFragment extends Fragment implements LocationTrackerFragment {
     private TextView windTextView;
     private TextView humidityTextView;
     private TextView rainTextView;
+    private Button reportButton;
     private Location mLastKnownLocation;
     public HomeFragment() {
         // Required empty public constructor
@@ -58,6 +62,15 @@ public class HomeFragment extends Fragment implements LocationTrackerFragment {
          windTextView = view.findViewById(R.id.wind_speed_textView);
          humidityTextView = view.findViewById(R.id.humidity_textView);
          rainTextView = view.findViewById(R.id.rain_textView);
+         reportButton = view.findViewById(R.id.report_button);
+
+         reportButton.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 Toast.makeText(v.getContext(), "Fire Reported", Toast.LENGTH_SHORT).show();
+                 ServerConnection.getInstance().sendRequest(new Request(Consts.REPORT_FIRE, "_"));
+             }
+         });
 
     }
     private void updateData()
@@ -94,6 +107,7 @@ public class HomeFragment extends Fragment implements LocationTrackerFragment {
                 humidityTextView.setText(String.valueOf(weatherData.getMain().getHumidity() + "%"));
                 rainTextView.setText(String.valueOf(weatherData.getRain().get3h() + " m\u2073"));
             }
+
         };
         volleyRequest.start();
     }
@@ -102,6 +116,7 @@ public class HomeFragment extends Fragment implements LocationTrackerFragment {
     public void onLocationChange(Location location) {
         if (mLastKnownLocation == null)
         {
+//            ServerConnection.getInstance().sendRequest(new Request());
             mLastKnownLocation = location;
             updateData();
         }

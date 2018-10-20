@@ -86,7 +86,8 @@
         </RelativeLayout>
 
         <android.support.v7.widget.AppCompatButton
-            android:text="REPORT"
+            android:id="@+id/report_button"
+            android:text="@string/report"
             android:height="45dp"
             android:textAlignment="center"
             android:background="#0000"

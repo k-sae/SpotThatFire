@@ -22,5 +22,6 @@
     <string name="zero">0</string>
     <string name="clear">CLEAR</string>
     <string name="unset">-</string>
+    <string name="report">REPORT</string>
 
 </resources>
