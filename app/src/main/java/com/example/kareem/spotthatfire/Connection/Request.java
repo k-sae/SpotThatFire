@@ -35,6 +35,6 @@ public class Request {
 
     @Override
     public String toString() {
-        return keyword + separator + content;
+        return keyword + separator + content + "\n";
     }
 }

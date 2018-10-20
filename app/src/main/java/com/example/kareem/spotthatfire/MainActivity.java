@@ -16,11 +16,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.kareem.spotthatfire.Connection.Request;
 import com.example.kareem.spotthatfire.Connection.ServerConnection;
+import com.example.kareem.spotthatfire.Connection.ServerNotificationListener;
 
 public class MainActivity extends LocationTrackerActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private static ServerConnection serverConnection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +30,24 @@ public class MainActivity extends LocationTrackerActivity
         setSupportActionBar(toolbar);
 
         ServerConnection.getInstance().startConnection();
+        ServerConnection.getInstance().setOnNotificationReceivedListener(new ServerNotificationListener() {
+            @Override
+            public void uponServerNotification(Request request) {
+                if (request.getKeyword().equals(Consts.REPORT_FIRE))
+                {
+                    Utils.displayNotification("ALERT",
+                            "A Possible Fire alert, proceed with caution",
+                            R.drawable.ic_launcher_background, MainActivity.this);
+                }
+
+            }
+        });
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO report for fire
-
+                ServerConnection.getInstance().sendRequest(new Request(Consts.REPORT_FIRE, "_"));
             }
         });
 

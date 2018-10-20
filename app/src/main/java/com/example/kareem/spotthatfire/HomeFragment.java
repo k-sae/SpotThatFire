@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.example.kareem.spotthatfire.Connection.Request;
+import com.example.kareem.spotthatfire.Connection.ServerConnection;
 import com.example.kareem.spotthatfire.Connection.VolleyRequest;
 import com.example.kareem.spotthatfire.Model.WeatherData;
 import com.google.gson.Gson;
@@ -87,7 +89,9 @@ public class HomeFragment extends Fragment implements LocationTrackerFragment {
                 windTextView.setText(String.valueOf(weatherData.getWind().getSpeed()));
                 humidityTextView.setText(String.valueOf(weatherData.getMain().getHumidity()));
                 rainTextView.setText(String.valueOf(weatherData.getRain().get3h()));
+//                ServerConnection.getInstance().sendRequest(new Request(Consts.UPLOAD_DATA, response));
             }
+
         };
         volleyRequest.start();
     }
@@ -96,6 +100,7 @@ public class HomeFragment extends Fragment implements LocationTrackerFragment {
     public void onLocationChange(Location location) {
         if (mLastKnownLocation == null)
         {
+//            ServerConnection.getInstance().sendRequest(new Request());
             mLastKnownLocation = location;
             updateData();
         }

@@ -20,8 +20,9 @@ public class ServerConnection {
     {
 
     }
-    private static ServerConnection serverConnection = new ServerConnection();
+    private static ServerConnection serverConnection;
     public static ServerConnection getInstance() {
+        if (serverConnection == null) serverConnection = new ServerConnection();
         return serverConnection;
     }
     public void startConnection()
@@ -68,11 +69,11 @@ public class ServerConnection {
             serverNotificationListener.uponServerNotification(request);
         }
     }
-    private void setOnNotificationReceivedListener(ServerNotificationListener  onNotificationReceivedListener)
+    public void setOnNotificationReceivedListener(ServerNotificationListener  onNotificationReceivedListener)
     {
         serverNotificationListeners.add(onNotificationReceivedListener);
     }
-    private void removeOnNotificationReceivedListener(ServerNotificationListener  onNotificationReceivedListener)
+    public void removeOnNotificationReceivedListener(ServerNotificationListener  onNotificationReceivedListener)
     {
         serverNotificationListeners.remove(onNotificationReceivedListener);
     }
