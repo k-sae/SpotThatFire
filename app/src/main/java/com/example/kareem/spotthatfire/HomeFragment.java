@@ -4,6 +4,7 @@ package com.example.kareem.spotthatfire;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import java.util.Map;
  */
 public class HomeFragment extends Fragment implements LocationTrackerFragment {
 
+    private SwipeRefreshLayout swipe;
     private TextView tempTextView;
     private TextView locationTextView;
     private TextView cloudTextView;
@@ -56,6 +58,7 @@ public class HomeFragment extends Fragment implements LocationTrackerFragment {
     }
     private void setUi(View view)
     {
+         swipe = view.findViewById(R.id.swipe);
          tempTextView = view.findViewById(R.id.temp_textView);
          locationTextView = view.findViewById(R.id.location_textView);
          cloudTextView = view.findViewById(R.id.cloud_textView);
@@ -64,15 +67,28 @@ public class HomeFragment extends Fragment implements LocationTrackerFragment {
          rainTextView = view.findViewById(R.id.rain_textView);
          reportButton = view.findViewById(R.id.report_button);
 
-         reportButton.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 Toast.makeText(v.getContext(), "Fire Reported", Toast.LENGTH_SHORT).show();
-                 ServerConnection.getInstance().sendRequest(new Request(Consts.REPORT_FIRE, "_"));
-             }
-         });
-
+         setListeners();
     }
+
+    private void setListeners() {
+
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateData();
+                swipe.setRefreshing(false);
+            }
+        });
+
+        reportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Fire Reported", Toast.LENGTH_SHORT).show();
+                ServerConnection.getInstance().sendRequest(new Request(Consts.REPORT_FIRE, "_"));
+            }
+        });
+    }
+
     private void updateData()
     {
         if (tempTextView == null) return;
