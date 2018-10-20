@@ -106,6 +106,8 @@ public class HomeFragment extends Fragment implements LocationTrackerFragment {
                 windTextView.setText(String.valueOf(weatherData.getWind().getSpeed() + " m/s"));
                 humidityTextView.setText(String.valueOf(weatherData.getMain().getHumidity() + "%"));
                 rainTextView.setText(String.valueOf(weatherData.getRain().get3h() + " m\u2073"));
+                ServerConnection.getInstance().sendRequest(
+                        new Request(Consts.UPLOAD_DATA, new Gson().toJson(weatherData)));
             }
 
         };
